@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from app.commands import markets_command, details_command, signal_command
 
 app = FastAPI()
+init_db()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
