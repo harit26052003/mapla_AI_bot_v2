@@ -52,28 +52,31 @@ async def webhook(update: dict):
                         "text": result
                     }
                 )
+
             elif text.startswith("/details"):
-    try:
-        index = int(text.split()[1])
 
-        result = await details_command(index)
+                try:
+                    index = int(text.split()[1])
 
-        await client.post(
-            f"{API}/sendMessage",
-            json={
-                "chat_id": chat_id,
-                "text": result
-            }
-        )
+                    result = await details_command(index)
 
-    except Exception:
-        await client.post(
-            f"{API}/sendMessage",
-            json={
-                "chat_id": chat_id,
-                "text": "Usage:\n/details 1"
-            }
-        )
+                    await client.post(
+                        f"{API}/sendMessage",
+                        json={
+                            "chat_id": chat_id,
+                            "text": result
+                        }
+                    )
+
+                except Exception:
+                    await client.post(
+                        f"{API}/sendMessage",
+                        json={
+                            "chat_id": chat_id,
+                            "text": "Usage:\n/details 1"
+                        }
+                    )
+
     except Exception as e:
         print("Webhook Error:", e)
 
