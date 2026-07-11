@@ -15,3 +15,10 @@ async def get_markets(limit: int = 5):
 
         response.raise_for_status()
         return response.json()
+async def get_market(index: int):
+    markets = await get_markets(10)
+
+    if index < 1 or index > len(markets):
+        return None
+
+    return markets[index - 1]
