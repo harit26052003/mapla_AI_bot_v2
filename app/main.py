@@ -1,5 +1,6 @@
 import os
 import httpx
+from app.services.database import init_db
 from fastapi import FastAPI
 from app.commands import markets_command, details_command, signal_command
 
