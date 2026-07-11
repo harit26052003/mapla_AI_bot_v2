@@ -1,4 +1,5 @@
 from app.services.polymarket import get_markets, get_market
+from app.services.ai import analyze_market
 
 
 async def markets_command():
@@ -23,13 +24,31 @@ async def details_command(index: int):
         return "❌ Invalid market number."
 
     question = market.get("question", "Unknown")
-    
+    volume = market.get("volume", "N/A")
+    liquidity = market.get("liquidity", "N/A")
+
     return (
-        f"🤖 AI Signal\n\n"
+        f"📊 Market Details\n\n"
         f"Question:\n{question}\n\n"
-        f"Recommendation: 🟡 WAIT\n"
-        f"Confidence: 70%\n\n"
-        f"Reason:\n"
-        f"• Live analysis not enabled yet\n"
-        f"• AI module will be added next"
+        f"Volume: {volume}\n"
+        f"Liquidity: {liquidity}"
     )
+
+
+async def signal_command(index: int):
+    market = await get_market(index)
+
+    if not market:
+        return "❌ Invalid market number."
+
+    question = market.get("question", "Unknown")
+    volume = market.get("volume", "N/A")
+    liquidity = market.get("liquidity", "N/A")
+
+    analysis = await analyze_market(
+        question,
+        volume,
+        liquidity
+    )
+
+    return f"🤖 AI Analysis\n\n{analysis}"
