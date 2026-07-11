@@ -1,5 +1,8 @@
 import asyncio
+import json
 
+from app.services.polymarket import get_markets
+from app.services.database import save_market
 from app.services.polymarket import get_markets
 from app.services.database import save_market
 
@@ -12,17 +15,13 @@ async def track_markets():
 
         for market in markets:
 
-            prices = market.get("outcomePrices", [])
-
-            yes = 0
-            no = 0
-
-            if isinstance(prices, list):
-                if len(prices) > 0:
-                    yes = float(prices[0])
-
-                if len(prices) > 1:
-                    no = float(prices[1])
+            prices = market.get("outcomePrices", "[]")
+            try:
+                prices = json.loads(prices)
+            except Exception:
+                prices = []
+                yes = float(prices[0]) if len(prices) > 0 else 0
+                no = float(prices[1]) if len(prices) > 1 else 0
 
             save_market(
                 str(market.get("id")),
