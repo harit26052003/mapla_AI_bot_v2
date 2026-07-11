@@ -2,7 +2,8 @@ import os
 from openai import AsyncOpenAI
 
 client = AsyncOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
 )
 
 async def analyze_market(question: str, volume, liquidity):
@@ -27,7 +28,7 @@ Risk:
 """
 
     response = await client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="openrouter/free",
         messages=[
             {
                 "role": "system",
