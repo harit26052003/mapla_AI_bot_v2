@@ -38,7 +38,7 @@ async def webhook(update: dict):
                     f"{API}/sendMessage",
                     json={
                         "chat_id": chat_id,
-                        "text": "/start\n/help\n/markets"
+                        "text": "/start\n/help\n/markets\n/details 1\n/signal 1"
                     }
                 )
 
