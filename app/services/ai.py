@@ -1,16 +1,24 @@
-from openai import AsyncOpenAI
 import os
+from openai import AsyncOpenAI
 
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = AsyncOpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
 
-async def analyze_market(question: str):
+async def analyze_market(question: str, volume, liquidity):
     prompt = f"""
-You are a professional Polymarket analyst.
+You are an expert Polymarket analyst.
 
 Market:
 {question}
 
-Respond in this format:
+Volume:
+{volume}
+
+Liquidity:
+{liquidity}
+
+Give only:
 
 Recommendation:
 Confidence:
@@ -21,8 +29,14 @@ Risk:
     response = await client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
-            {"role": "system", "content": "You are a prediction market analyst."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are an expert prediction market analyst."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
