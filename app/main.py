@@ -92,13 +92,12 @@ async def webhook(update: dict):
                     )
 
                 except Exception as e:
-    print(e)
-
-    await client.post(
-        f"{API}/sendMessage",
-        json={
-            "chat_id": chat_id,
-            "text": str(e)
+                    print(e)
+                    await client.post(
+                        f"{API}/sendMessage",
+                        json={
+                            "chat_id": chat_id,
+                            "text": str(e)
         }
     )
     except Exception as e:
