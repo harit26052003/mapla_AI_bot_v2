@@ -1,5 +1,7 @@
 import os
 import httpx
+import asyncio
+from app.services.tracker import track_markets
 from app.services.database import init_db
 from fastapi import FastAPI
 from app.commands import markets_command, details_command, signal_command
