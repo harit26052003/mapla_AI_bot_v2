@@ -1,7 +1,7 @@
 import os
 import httpx
 from fastapi import FastAPI
-from app.commands import markets_command, details_command
+from app.commands import markets_command, details_command, signal_command
 
 app = FastAPI()
 
@@ -76,7 +76,29 @@ async def webhook(update: dict):
                             "text": "Usage:\n/details 1"
                         }
                     )
+            elif text.startswith("/signal"):
 
+                try:
+                    index = int(text.split()[1])
+
+                    result = await signal_command(index)
+
+                    await client.post(
+                        f"{API}/sendMessage",
+                        json={
+                            "chat_id": chat_id,
+                            "text": result
+                        }
+                    )
+
+                except Exception:
+                    await client.post(
+                        f"{API}/sendMessage",
+                        json={
+                            "chat_id": chat_id,
+                            "text": "Usage:\n/signal 1"
+                        }
+                    )
     except Exception as e:
         print("Webhook Error:", e)
 
